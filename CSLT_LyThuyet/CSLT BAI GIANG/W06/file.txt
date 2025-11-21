@@ -1,0 +1,31 @@
+6 bước để đọc file:
+1. Hiểu cấu trúc của file. Tạo file dữ liệu input.
+    Tìm cách lấy được đường dẫn của file.
+    path: "duong_dan_file"
+    Hide well-known extension (.docx, .pdf, .txt, ...). Không sửa bậy.
+
+2. Open file: Khai báo ifstream fin("input.txt).
+3. Kiểm tra việc mở file có thành công: fin.is_open().
+4. Xử lí khi mở file ko thành công.
+5. Đọc dữ liệu từ file. Liên hệ với cin.
+6. Close file
+
+=========================================================================
+
+
+6 bước để ghi file :
+1. Hiểu cấu trúc của file, để bước 5 ghi dữ liệu đúng.
+    Tìm cách lấy được đường dẫn của file.
+    path: "duong_dan_file"
+    Hide well-known extension (.docx, .pdf, .txt, ...). Không sửa bậy.
+
+2. Open file: Khai báo ofstream fout("answer.txt).
+3. Kiểm tra việc mở file/ tạo file có thành công: fout.is_open().
+4. Xử lí khi mở file/ tạo file ko thành công.
+5. Ghi dữ liệu từ file. Liên hệ với cout.
+6. Close file
+
+Để đường dẫn tương đối khi nộp bài, nếu file input cùng thư mục với code, không cần ghi hết như "C:......", chỉ để lại "input.txt".
+
+
+fin.eof(): true -> hết file.

@@ -1,0 +1,15 @@
+Nếu dùng các hàm có sẵn trong chuỗi, các hàm sẽ lo gán \0 ở cuối cho ta rồi
+Nếu tự xử lí chuỗi theo cách duyệt mảng phải thêm \0 ở cuối mảng
+
+4 lưu ý :
+- Chuỗi là 1 kiểu dữ liệu quan trọng
+- Chuỗi là mảng kí tự
+- Có rất nhiều hàm có sẵn để xử lý
+- Nếu các hàm có sẵn không đủ để xử lí chuỗi, hãy nhớ lại điều 2. (nhớ kí tự \0)
+
+0->9 : 47 -> 58
+A->Z : 65 -> 90
+a->z : 97 -> 122
+
+strncpy(str_destination, str_source, độ dài);
+sau khi strncpy kết thúc phải cho kí tự cuối của str_destination là \0
