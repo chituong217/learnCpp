@@ -12,7 +12,7 @@ Trong này chứa các bài tập và dự án mình đã làm, bao gồm:
 | **📂 CSLT_ThucHanh** | Bài tập thực hành trên lớp |
 
 ## 🛠 Công cụ sử dụng
-* **Ngôn ngữ:** C++ (Standard 11/14/17)
+* **Ngôn ngữ:** C++
 * **IDE:** VS Code
 * **Compiler:** MinGW (G++)
 
@@ -21,4 +21,4 @@ Nếu bạn thấy code mình sai hoặc muốn trao đổi thêm:
 * Email: chituong217@gmail.com
 
 ---
-*Cảm ơn đã ghé thăm! Đừng quên để lại 1 ⭐ nếu thấy hữu ích nhé!*
+*Cảm ơn đã ghé thăm!*
