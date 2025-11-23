@@ -1,27 +1,29 @@
 #include <iostream>
+#define ll long long 
 
 using namespace std;
 
-bool check(int t, int x, int y, int n){
-    int be;
+bool check(ll t, ll x, ll y, ll n){
+    ll be;
     if (x < y){
         be = x;
     }
     else{
         be = y;
     }
+    if (t < be) return false;
     t -= be;
-    int product = 1 + t/x + t/y;
+    ll product = 1 + t/x + t/y;
     return product >= n;
 }
 
 int main(){
-    int n, x, y;
+    ll n, x, y;
     cin >> n >> x >> y;
-    int left = 0, right = 2e8;
-    int ans = right;
+    ll left = 0, right = 1e18;
+    ll ans = right;
     while (left <= right){
-        int mid = left + (right - left)/2;
+        ll mid = left + (right - left)/2;
         if (check(mid, x, y, n)){
             ans = mid;
             right = mid - 1;
