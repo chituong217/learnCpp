@@ -8,7 +8,7 @@ bool check(ll mid, ll a, ll b, ll n){
     if (col >= n || row >= n){
         return true;
     }
-    if (row > 0 && col >= n/row){
+    if (row > 0 && col > n/row){
         return true;
     }
     return col*row >= n;
