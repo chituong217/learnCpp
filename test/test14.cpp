@@ -4,11 +4,9 @@
 using namespace std;
 
 int main(){
-    int x; cin >> x;
-    string s;
-    cin.ignore(1);
-    getline(cin, s);
-    cout << s << endl;
-    cout << "Do dai cua xau la : " << s.size() << endl;
+    string s = "Nguyen Le ";
+    string t = "Chi Tuong";
+    string name = s + t;
+    cout << name;
     return 0;
 }
