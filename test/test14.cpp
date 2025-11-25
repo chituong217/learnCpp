@@ -4,9 +4,9 @@
 using namespace std;
 
 int main(){
-    string s = "Nguyen Le ";
-    string t = "Chi Tuong";
-    string name = s + t;
-    cout << name;
+    string name1 = "Chi";
+    string name2 = "Tuong";
+    string name = "Nguyen Le " + name1 + " " + name2 + ' ' + "DEPTRAIVAIZZZZZZZZZZZZZZZ";
+    cout << name << endl;
     return 0;
 }
