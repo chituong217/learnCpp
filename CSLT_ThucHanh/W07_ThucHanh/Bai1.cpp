@@ -5,8 +5,7 @@
 
 using namespace std;
 
-void phatsinhMang(int *&a, int n, int minVal, int maxVal) {
-    a = new int[n]; 
+void phatsinhMang(int *a, int n, int minVal, int maxVal) {
     for (int i = 0; i < n; i++) {
         a[i] = minVal + rand() % (maxVal - minVal + 1);
     }
@@ -113,10 +112,16 @@ int main(){
         cin >> n;
     } while (n < 3);
 
-    int *a = NULL;
+    int *a = new int [n];
     int minVal, maxVal;
     cout << "Nhap khoang gia tri [min, max]: ";
     cin >> minVal >> maxVal;
+
+    if (minVal > maxVal) {
+        int temp = minVal;
+        minVal = maxVal;
+        maxVal = temp;
+    }
 
     phatsinhMang(a, n, minVal, maxVal);
 

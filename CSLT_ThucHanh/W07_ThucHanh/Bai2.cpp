@@ -3,6 +3,11 @@
 
 using namespace std;
 
+void phatsinhMang(int *&a, int n, int minVal, int maxVal){
+    
+
+}
+
 bool isSquare(int n){
     if (n < 0) return false; 
     int k = sqrt(n);
