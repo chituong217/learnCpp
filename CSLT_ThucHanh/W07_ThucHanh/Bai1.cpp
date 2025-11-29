@@ -1,159 +1,171 @@
 #include <iostream>
 #include <cmath>
 #include <cstdlib>
+#include <ctime>
 
 using namespace std;
 
-int fre[10000005] = {0};
+void phatsinhMang(int *&a, int n, int minVal, int maxVal) {
+    a = new int[n]; 
+    for (int i = 0; i < n; i++) {
+        a[i] = minVal + rand() % (maxVal - minVal + 1);
+    }
+}
 
 int findMax(int a[], int n){
-    int max = a[0];
-    for (int i = 0; i < n; i++){
-        if ( a[i] > max){
-            max = a[i];
-        }
+    int maxVal = a[0];
+    for (int i = 1; i < n; i++){
+        if (a[i] > maxVal) maxVal = a[i];
     }
-    return max;
+    return maxVal;
 }
 
 int findMin(int a[], int n){
-    int min = a[0];
-    for (int i = 0; i < n; i++){
-        if ( a[i] < min){
-            min = a[i];
-        }
+    int minVal = a[0];
+    for (int i = 1; i < n; i++){
+        if (a[i] < minVal) minVal = a[i];
     }
-    return min;
+    return minVal;
 }
 
 long long findSum(int a[], int n){
     long long sum = 0;
-    for (int i = 0; i < n; i++){
-        sum += a[i];
-    }
+    for (int i = 0; i < n; i++) sum += a[i];
     return sum;
-}
-
-long long findSumMaxFre(int a[], int n){
-    int maxFre = 0;
-    long long sumMaxFre = 0;
-    for (int i = 0; i < n; i++){
-        fre[a[i]]++;
-    }
-    for (int i = 0; i < n; i++){
-        int tmpFre = fre[a[i]];
-        if (tmpFre > maxFre){
-            maxFre = tmpFre;
-        }
-    }
-    for (int i = 0; i < n; i++){
-        if (fre[a[i]] == maxFre){
-            sumMaxFre += a[i];
-        }
-    }
-    return sumMaxFre;
 }
 
 int comp(const void *a, const void *b){
     int *x = (int *)a;
     int *y = (int *)b;
-    if (*x < *y){
-        return -1;
+    return (*x - *y);
+}
+
+long long findSumMaxFreSafe(int a[], int n) {
+    if (n == 0) return 0;
+    int *temp = new int[n];
+    for(int i=0; i<n; i++){
+        temp[i] = a[i];
     }
-    else{
-        return 1;
+    qsort(temp, n, sizeof(int), comp);
+
+    int currentFre = 1;
+    int maxFre = 1;
+
+    for (int i = 1; i < n; i++) {
+        if (temp[i] == temp[i-1]) {
+            currentFre++;
+        }
+        else {
+            if (currentFre > maxFre) {
+                maxFre = currentFre;
+            }
+            currentFre = 1;
+        }
     }
+    if (currentFre > maxFre){
+        maxFre = currentFre;
+    }
+
+    long long totalSum = 0;
+    currentFre = 1;
+    for (int i = 1; i < n; i++) {
+        if (temp[i] == temp[i-1]) {
+            currentFre++;
+        }
+        else {
+            if (currentFre == maxFre) {
+                totalSum += (long long)temp[i-1] * currentFre; 
+            }
+            currentFre = 1;
+        }
+    }
+
+    if (currentFre == maxFre) {
+        totalSum += (long long)temp[n-1] * currentFre;
+    }
+
+    delete[] temp;
+    return totalSum;
 }
 
 bool isConCuaMang(int a[], int n, int con[], int sizecon){
-    int idx = 0;
-    for (int i = 0; i < n; i++){
-        int i_tmp = i;
-        if (a[i] == con[idx]){
-            while (a[i] == con[idx]){
-                i++;
-                idx++;
-                if (idx == sizecon){
-                    return true;
-                }
-                if (i >= n){
-                    return false;
-                }
+    if (sizecon == 0) return true;
+    if (sizecon > n) return false;
+
+    for (int i = 0; i <= n - sizecon; i++){
+        bool match = true;
+        for(int j = 0; j < sizecon; j++){
+            if(a[i+j] != con[j]){
+                match = false;
+                break;
             }
-            idx = 0;
-            i = i_tmp;
         }
+        if (match) return true;
     }
     return false;
 }
 
 int main(){
+    srand(time(NULL));
     int n;
     do{
+        cout << "Nhap so luong phan tu: ";
         cin >> n;
     } while (n < 3);
-    int *a = new int[n];
-    for (int i = 0; i < n; i++){
-        cin >> a[i];
+
+    int *a = NULL;
+    int minVal, maxVal;
+    cout << "Nhap khoang gia tri [min, max]: ";
+    cin >> minVal >> maxVal;
+
+    phatsinhMang(a, n, minVal, maxVal);
+
+    cout << "Mang phat sinh: ";
+    for(int i=0; i<n; i++){
+        cout << a[i] << " ";
     }
+    cout << endl;
 
-    int max = findMax(a, n);
-    cout << "Phan tu lon nhat: " << max << endl;
+    cout << "Phan tu lon nhat: " << findMax(a, n) << endl;
+    cout << "Phan tu nho nhat: " << findMin(a, n) << endl;
+    cout << "Tong cac phan tu: " << findSum(a, n) << endl;
 
-    int min = findMin(a, n);
-    cout << "Phan tu nho nhat: " << min << endl;
+    cout << "Tong cac phan tu co so lan xuat hien lon nhat: " << findSumMaxFreSafe(a, n) << endl;
 
-    long long sum = findSum(a, n);
-    cout << "Tong cac phan tu trong mang: "<< sum << endl;
-
-    long long sumMaxFre = findSumMaxFre(a, n);
-    cout << "Tong cac phan tu co so lan xuat hien lon nhat: " << sumMaxFre << endl;
-
-    // xu li phan tu trung vi
     int *b = new int [n];
     for (int i = 0; i < n; i++){
         b[i] = a[i];
     }
     qsort(b, n, sizeof(int), comp);
-    int middle_pos = n/2;
-    bool isEven = false;
-    if (n % 2 == 0){
-        isEven = true;
+    
+    cout << "Phan tu trung vi: ";
+    if (n % 2 != 0){
+        cout << b[n/2] << endl;
+    } else {
+        cout << b[n/2 - 1] << " va " << b[n/2] << endl;
     }
-    cout << "Phan tu trung vi cua mang: ";
-    if (isEven == false){
-        cout << b[middle_pos] << endl;
-    }
-    else{
-        cout << b[middle_pos - 1] << ' ' << b[middle_pos] << endl;
-    }
+    delete []b;
 
-
-    // xu li mang con
     int sizecon;
-    cout << "Hay nhap vao size cua mang con: ";
+    cout << "Hay nhap size mang con: ";
     cin >> sizecon;
-    int *con = new int[sizecon];
-    if (sizecon == 0){
-        cout << "Mang rong la mang con cua moi mang" << endl;
-    }
-    else{
-        cout << "Hay nhap vao " << sizecon << " phan tu cua mang con:" << endl;
+    if(sizecon > 0) {
+        int *con = new int[sizecon];
+        cout << "Nhap cac phan tu mang con: ";
         for (int i = 0; i < sizecon; i++){
             cin >> con[i];
         }
-        bool isCon = isConCuaMang(a, n, con, sizecon);
-        if (isCon == true){
-            cout << "Mang con cua mang ban dau" << endl;
-        }
-        else{
-            cout << "Khong phai mang con cua mang ban dau" << endl;
-        }
+        
+        if (isConCuaMang(a, n, con, sizecon))
+            cout << "La mang con!" << endl;
+        else
+            cout << "Khong phai mang con!" << endl;
+        
+        delete []con;
+    } else {
+        cout << "Mang rong la mang con cua moi mang" << endl;
     }
-    
-    
+
     delete []a;
-    delete []b;
-    delete []con;
     return 0;
 }
