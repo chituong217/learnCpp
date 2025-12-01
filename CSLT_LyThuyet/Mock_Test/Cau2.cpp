@@ -8,7 +8,7 @@ int findPartitionIndex(int *nums, int size){
         totalSum += nums[i];
     }
     int totalLeft = 0;
-    for (int i = 0; i < size; i++){
+    for (int i = 0; i < size - 1; i++){
         totalLeft += nums[i];
         int totalRight = totalSum - totalLeft;
         if (totalRight == totalLeft){
