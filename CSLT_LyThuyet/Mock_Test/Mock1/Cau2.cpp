@@ -8,7 +8,7 @@ int findLongestAlternatingSubarray(int* nums, int size){
     while (i < size){
         int currentLength = 1;
         if (nums[i] * nums[i - 1] < 0){
-            while (nums[i] * nums[i-1] < 0 && i < size){
+            while (i < size && nums[i] * nums[i-1] < 0){
                 i++;
                 currentLength++;
             }
