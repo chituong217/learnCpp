@@ -5,7 +5,7 @@ using namespace std;
 void rotateArray (int* nums, int size, int k){
     int tmp[size];
     int tmpIdx = 0;
-    int k = k % size;
+    k = k % size;
     for (int i = size - k; i < size; i++){
         tmp[tmpIdx] = nums[i];
         tmpIdx++;
