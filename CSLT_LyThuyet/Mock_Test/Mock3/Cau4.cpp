@@ -12,55 +12,56 @@ struct List{
 };
 
 void mergeSortedLists(List &L1, List &L2){
+    if (L1.pHead == NULL){
+        L1.pHead = L2.pHead;
+        return;
+    } 
+    if (L2.pHead == NULL){
+        return;
+    }
+
     Node* tmp1 = L1.pHead;
     Node* tmp2 = L2.pHead;
 
-    if (tmp1 == NULL){
-        L1.pHead = tmp2;
-        return;
-    }
-    if (tmp2 == NULL){
-        return;
-    }
+    Node dummy;
+    Node* tail = &dummy;
 
     while (tmp1 != NULL && tmp2 != NULL){
         if (tmp1->data < tmp2->data){
+            tail->pNext = tmp1;
+            tail = tmp1;
             tmp1 = tmp1->pNext;
         }
         else{
-            Node* next1 = tmp1->pNext;
-            Node* next2 = tmp2->pNext;
-            tmp1->pNext = tmp2;
-            tmp2->pNext = next1;
-            
-            tmp1 = next1;
-            tmp2 = next2;
+            tail->pNext = tmp2;
+            tail = tmp2;
+            tmp2 = tmp2->pNext;
         }
     }
-    while (tmp2 != NULL){
-        if (tmp1->data > tmp2->data){
-            Node* next1 = tmp1->pNext;
-            Node* next2 = tmp2->pNext;
-            tmp1->pNext = tmp2;
-            tmp2->pNext = next1;
+    
+    if (tmp1 == NULL){
+        tail->pNext = tmp2;
+    }
+    else{
+        tail->pNext = tmp1;
+    }
 
-            tmp1 = next1;
-            tmp2 = next2;
-        }
-    }
+    L1.pHead = dummy.pNext;
+    L2.pHead = NULL;
 }
 
 void removeDuplicates(List &L){
     Node* tmp = L.pHead;
-    if (tmp == NULL || tmp->pNext == NULL) return;
-    while (tmp != NULL){
-        Node* next = tmp->pNext;
-        if (next == NULL) break;
-        if (tmp->data == next->data){
-            next = next->pNext;
+    if (tmp == NULL) return;
+
+    while (tmp != NULL && tmp->pNext != NULL){
+        if (tmp->data == tmp->pNext->data){
+            Node* duplicate = tmp->pNext;
+            tmp->pNext = duplicate->pNext;
+            delete duplicate; 
         }
         else{
-            tmp->pNext = next;
+            tmp = tmp->pNext;
         }
     }
 }
