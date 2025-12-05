@@ -3,6 +3,7 @@
 using namespace std;
 
 void findSaddlePoints(int a[][100], int rows, int cols){
+    bool isFound = false;
     for (int i = 0; i < rows; i++){
         for (int j = 0; j < cols; j++){
             bool isReal = true;
@@ -15,8 +16,12 @@ void findSaddlePoints(int a[][100], int rows, int cols){
                 if (a[k][j] > a[i][j]) isReal = false;
             }
             if (isReal == true){
+                isFound = true;
                 cout << "(" << i << << ", " << j << ")" << endl;
             }
         }
+    }
+    if (isFound == false){
+        cout "Khong co\n";
     }
 }
