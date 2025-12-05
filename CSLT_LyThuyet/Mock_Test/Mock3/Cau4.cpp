@@ -49,3 +49,18 @@ void mergeSortedLists(List &L1, List &L2){
         }
     }
 }
+
+void removeDuplicates(List &L){
+    Node* tmp = L.pHead;
+    if (tmp == NULL || tmp->pNext == NULL) return;
+    while (tmp != NULL){
+        Node* next = tmp->pNext;
+        if (next == NULL) break;
+        if (tmp->data == next->data){
+            next = next->pNext;
+        }
+        else{
+            tmp->pNext = next;
+        }
+    }
+}
