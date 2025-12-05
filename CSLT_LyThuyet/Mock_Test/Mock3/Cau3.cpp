@@ -17,11 +17,11 @@ void findSaddlePoints(int a[][100], int rows, int cols){
             }
             if (isReal == true){
                 isFound = true;
-                cout << "(" << i << << ", " << j << ")" << endl;
+                cout << "(" << i << ", " << j << ")" << endl;
             }
         }
     }
     if (isFound == false){
-        cout "Khong co\n";
+        cout << "Khong co\n";
     }
 }
