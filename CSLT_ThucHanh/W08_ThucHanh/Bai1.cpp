@@ -105,7 +105,7 @@ SinhVien* LoadSV(const char *path, int &n){
             else {
                 strcpy(arr[idx].HoTen, "No Name");
             }
-            
+
             idx++;
         }
     }
@@ -116,7 +116,7 @@ SinhVien* LoadSV(const char *path, int &n){
 }
 
 int main(){
-    const char *path = "C:\\Users\\XAOXIN\\Documents\\GITHUB\\learnCpp\\CSLT_ThucHanh\\W08_ThucHanh\\data.txt";
+    const char *path = "data.txt";
     int n = 0;
     SinhVien *arrSV1 = LoadSV(path, n);
     SinhVien *arrSV2 = LoadSV(path, n);
