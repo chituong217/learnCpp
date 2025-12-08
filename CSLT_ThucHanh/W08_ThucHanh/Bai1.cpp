@@ -99,8 +99,14 @@ SinhVien* LoadSV(const char *path, int &n){
             arr[idx].MSSV = MSSV;
 
             token = strtok(NULL, ";");
+
             if (token != NULL) {
-                strcpy(arr[idx].HoTen, token);
+                if (token[0] == ' ') {
+                    strcpy(arr[idx].HoTen, token + 1); 
+                } 
+                else {
+                    strcpy(arr[idx].HoTen, token);
+                }
             }
             else {
                 strcpy(arr[idx].HoTen, "No Name");
