@@ -7,7 +7,7 @@ void multiplyMatrices(int A[][100], int B[][100], int C[][100], int m, int p, in
         for (int j = 0; j < n; j++){
             C[i][j] = 0;
             for (int k = 0; k < p; k++){
-                C[i][j] += A[i][k] + B[k][j];
+                C[i][j] += A[i][k] * B[k][j];
             }
         }
     }
