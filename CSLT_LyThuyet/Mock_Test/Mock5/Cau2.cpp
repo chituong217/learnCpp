@@ -23,7 +23,3 @@ void generateMinesweeperMap(int a[][100], int m, int n){
         }
     }
 }
-
-int main(){
-    return 0;
-}
