@@ -67,6 +67,7 @@ SinhVien* CreateSV(const char *strIn){
     char* pId = new char[1000];
     sv->hoTen = pName;
     sv->masV = pId;
+    sv->diemMonHoc = NULL;
 
     char line[1000];
     strcpy(line, strIn);
@@ -146,10 +147,12 @@ ListSV* Load(const char *path){
     while (fin.getline(line, 1000)){
         SinhVien* sv = CreateSV(line);
         if (tmp == NULL){
-            tmp = makeNode(sv);
+            list->head = makeNode(sv);
+            tmp = list->head;
         }
         else{
             tmp->next = makeNode(sv);
+            tmp = tmp->next;
         }
     }
 
@@ -165,6 +168,8 @@ void FreeData(ListSV *listSV){
         delete []tmp->sv->masV;
         delete []tmp->sv->hoTen;
         delete []tmp->sv->diemMonHoc;
+        delete tmp->sv;
+
         Node* del = tmp;
         tmp = tmp->next;
         
@@ -203,9 +208,9 @@ void sapxepsinhvien(ListSV *list, bool(compare)(SinhVien* a, SinhVien* b)){
                 min = j;
             }
         }
-        char* tmp = min->sv->hoTen;
-        min->sv->hoTen = i->sv->hoTen;
-        i->sv->hoTen = tmp;
+        SinhVien* tmp = min->sv;
+        min->sv = i->sv;
+        i->sv = tmp;
     }
 }
 
@@ -220,6 +225,23 @@ void PrintData(ListSV *listSV){
 }
 
 // cau 8
+
+SinhVien* copysinhvien(SinhVien* src){
+    SinhVien* des = new SinhVien;
+    des->masV = new char[1000];
+    strcpy(des->masV, src->masV);
+    des->hoTen = new char[1000];
+    strcpy(des->hoTen, src->hoTen);
+    des->diemTB = src->diemTB;
+    des->soMonHoc = src->soMonHoc;
+
+    des->diemMonHoc = new float[1000];
+    for (int i = 0; i < des->soMonHoc; i++){
+        des->diemMonHoc[i] = src->diemMonHoc[i];
+    }
+
+    return des;
+}
 
 ListSV* ExtractListSV(ListSV* list){
     ListSV* listA = new ListSV;
@@ -238,13 +260,19 @@ ListSV* ExtractListSV(ListSV* list){
         }
 
         if (ok == true){
+            // copy sinh vien o day
+            SinhVien* sv = copysinhvien(tmp->sv);
             if (tmpA == NULL){
-                tmpA = makeNode(tmp->sv);
+                listA->head = makeNode(sv);
+                tmpA = listA->head;
             }
             else{
-                tmpA->next = makeNode(tmp->sv);
+                tmpA->next = makeNode(sv);
+                tmpA = tmpA->next;
             }
         }
+        
+        tmp = tmp->next;
     }
     sapxepsinhvien(listA, comparebygpa);
 
