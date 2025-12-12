@@ -17,7 +17,7 @@ bool isAnagram(char* s1, char* s2){
     }
 
     bool ok = true;
-    for (int i = 0; i <= 256; i++){
+    for (int i = 0; i < 256; i++){
         if (dem1[i] != dem2[i]){
             ok = false;
         }
