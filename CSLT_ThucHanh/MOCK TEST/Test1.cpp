@@ -200,7 +200,7 @@ bool comparebygpa(SinhVien* a, SinhVien* b){
 
 
 // ham sap xep
-void sapxepsinhvien(ListSV *list, bool(compare)(SinhVien* a, SinhVien* b)){
+void sapxepsinhvien(ListSV *list, bool(*compare)(SinhVien* a, SinhVien* b)){
     for (Node* i = list->head; i != NULL; i = i->next){
         Node* min = i;
         for (Node* j = i->next; j != NULL; j = j->next){
