@@ -1,3 +1,5 @@
+// Tôi cam kết bài làm này là do tôi tự làm, ko phải nhờ người khác làm giùm, ko phải nhờ AI làm giùm
+
 #include <iostream>
 #include <fstream>
 #include <cstring>
