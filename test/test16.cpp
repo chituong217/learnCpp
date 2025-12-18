@@ -1,33 +1,45 @@
-#include <iostream>
+struct SinhVien {
+    char* masv;
+    char* hoTen;
+    float* diemCacMon; 
+    int soMonHoc;
+    float diemTB ;
+};
 
-using namespace std;
+struct Node{
+    SinhVien data ;
+    Node* next ;
+};
 
-long long sumMaxArrayKLength(int a[], int n, int k){
-    long long currentWindowSum = 0;
-    if (k > n) return 0;
-    for (int i = 0; i < k; i++){
-        currentWindowSum += a[i];
-    }
-    long long maxWindowSum = currentWindowSum;
-    for (int i = k; i < n; i++){
-        currentWindowSum = currentWindowSum + a[i] - a[i - k];
+struct ListSV{
+    Node* head ;
+    Node* tail ;
+};
 
-        if (currentWindowSum > maxWindowSum){
-            maxWindowSum = currentWindowSum;
+void deleteSinhVienGPABelow5(ListSV &list){
+    if (list.head == NULL) return;
+
+    Node dummy;
+    Node* tail = &dummy;
+
+    Node* tmp = list.head;
+    while (tmp != NULL){
+        if (tmp->data.diemTB < 5.0){
+            Node* del = tmp;
+            tmp = tmp->next;
+
+            delete []del->data.hoTen;
+            delete []del->data.masv;
+            delete []del->data.diemCacMon;
+            delete del;
+        }
+        else{
+            tail->next = tmp;
+            tmp = tmp->next;
+            tail = tail->next;
         }
     }
-
-    return maxWindowSum;
-}
-
-int main(){
-    int n, k;
-    cin >> n >> k;
-    int a[1000];
-    for (int i = 0; i < n; i++){
-        cin >> a[i];
-    }
-
-    cout << sumMaxArrayKLength(a, n, k);
-    return 0;
+    
+    tail->next = NULL;
+    list.head = dummy.next;
 }
