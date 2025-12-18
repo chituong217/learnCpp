@@ -1,57 +1,64 @@
 #include <iostream>
-#include <cstring>
 #include <fstream>
-#include <iomanip>
+#include <cstring>
 
 using namespace std;
 
-struct Student{
-    char id[20];
-    char name[50];
-    float math, phys, eng;
+struct employee{
+    char id[100];
+    char checkin[10];
+    char checkout[10];
+    int time;
 };
 
-void listScholarshipStudents(char* filePath){
+void findHardWorkingEmployee(char* filePath){
     ifstream fin;
+    employee ds[100];
+    int idx = 0;
 
     fin.open(filePath);
-    
+
     if (fin.is_open() == false){
-        cout << "Khong the mo file" << endl;
+        cout << "Ko the mo file" << endl;
         return;
     }
 
-    Student ds[1000];
     char line[1000];
-    int idx = 0;
 
-    while (fin.getline(line, 1000)){
+    while(fin.getline(line, 1000)){
         char* id = strtok(line, ",");
-        char* name = strtok(NULL, ",");
-        char* mathS = strtok(NULL, ",");
-        char* physS = strtok(NULL, ",");
-        char* engS = strtok(NULL, ",");
+        char* checkin = strtok(NULL, ",");
+        char* checkout = strtok(NULL, ",");
 
-        if (id && name && mathS && physS && engS){
+        if (id && checkin && checkout){
             strcpy(ds[idx].id, id);
-            strcpy(ds[idx].name, name);
-            ds[idx].math = atof(mathS);
-            ds[idx].phys = atof(physS);
-            ds[idx].eng = atof(engS);
-
+            strcpy(ds[idx].checkin, checkin);
+            strcpy(ds[idx].checkout, checkout);
             idx++;
         }
     }
 
     for (int i = 0; i < idx; i++){
-        bool ok = false;
-        float gpa = (ds[i].math + ds[i].phys + ds[i].eng)/3.0;
-        if (gpa >= 8.0 && ds[i].math >= 5.0 && ds[i].phys >= 5.0 && ds[i].eng >= 5.0){
-            ok = true;
-        }
+        char* token = strtok(ds[i].checkout, ":");
+        int time = 0;
+        time = atoi(token) * 60;
+        token = strtok(NULL, ":");
+        time += atoi(token);
+        ds[i].time = time;
+    }
 
-        if (ok == true){
-            cout << fixed << setprecision(2) << ds[i].name << " - DTB: " << gpa << endl;
+    for (int i = 0; i < idx; i++){
+        char* token = strtok(ds[i].checkin, ":");
+        int time = 0;
+        time = atoi(token) * 60;
+        token = strtok(NULL, ":");
+        time += atoi(token);
+        ds[i].time -= time;
+    }
+
+    for (int i = 0; i < idx; i++){
+        if (ds[i].time > 480){
+            cout << ds[i].id << " - " << "Thoi gian: " << ds[i].time << "phut" << endl;
         }
     }
 

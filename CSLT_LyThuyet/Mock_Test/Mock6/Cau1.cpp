@@ -2,15 +2,22 @@
 
 using namespace std;
 
-int digitalRoot(int n){
-    if (n < 0) return -1;
-    if (n < 10) return n;
-    
-    int tong = 0;
-    while(n){
-        tong += n%10;
-        n/=10;
+bool isPrime(int n){
+    if (n < 2) return false;
+    for (int i = 2; i*i <= n; i++){
+        if (n % i == 0){
+            return false;
+        }
     }
-    
-    return digitalRoot(tong);
+    return true;
+}
+
+bool isSuperPrime(int n){
+    while (n > 0){
+        if (isPrime(n) == false){
+            return false;
+        }
+        n /= 10;
+    }
+    return true;
 }

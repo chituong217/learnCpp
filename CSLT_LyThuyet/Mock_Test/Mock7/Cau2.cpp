@@ -2,26 +2,13 @@
 
 using namespace std;
 
-bool isAnagram(char* s1, char* s2){
-    int dem1[256] = {0};
-    int dem2[256] = {0};
-
-    int len1 = strlen(s1);
-    int len2 = strlen(s2);
-
-    for (int i = 0; i < len1; i++){
-        dem1[s1[i]]++;
-    }
-    for (int i = 0; i < len2; i++){
-        dem2[s2[i]]++;
-    }
-
-    bool ok = true;
-    for (int i = 0; i < 256; i++){
-        if (dem1[i] != dem2[i]){
-            ok = false;
+void multiplyMatrices(int A[][100], int B[][100], int C[][100], int m, int p, int n){
+    for (int i = 0; i < m; i++){
+        for (int j = 0; j < n; j++){
+            C[i][j] = 0;
+            for (int k = 0; k < p; k++){
+                C[i][j] += A[i][k] * B[k][j];
+            }
         }
     }
-
-    return ok;
 }

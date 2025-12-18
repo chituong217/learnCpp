@@ -2,36 +2,43 @@
 #include <fstream>
 #include <cstring>
 #include <cstdlib>
-#include <cstdio>
 
 using namespace std;
 
-int countFailedAccess(char* filePath){
-    int cnt = 0;
+struct Order{
+    char id[20];
+    char name[100];
+    int quantity;
+    long long price;
+};
 
+void filterHighValueOrder(char* inputFile, char* outputFile){
     ifstream fin;
+    ofstream fout;
 
-    fin.open(filePath);
+    fin.open(inputFile);
+    fout.open(outputFile);
 
-    if (fin.is_open() == false){
-        cout << "Khong the mo file" << endl;
-        return 0;
+    if (fin.is_open() == false || fout.is_open() == false){
+        cout << "Khong the mo file\n";
+        return;
     }
 
     char line[1000];
-
     while (fin.getline(line, 1000)){
-        char* ip = strtok(line, "-");
-        char* date = strtok(NULL, "-");
-        char* status = strtok(NULL, "-");
-        
-        if (ip && date && status){
-            if (strstr(status, "FAIL") != NULL || strstr(status, "ERROR") != NULL){
-                cnt++;
-            }
+        char* id = strtok(line, ",");
+        char* name = strtok(NULL, ",");
+        char* quantity = strtok(NULL, ",");
+        char* price = strtok(NULL, ",");
+
+        int quantityI = atoi(quantity);
+        long long priceLL = atoll(price);
+        long long sum = quantityI * priceLL;
+        if (sum > 1000000){
+            fout << id << " - " << name << " - " << "Tong: " << sum << endl;
         }
     }
 
+    fout.close();
     fin.close();
-    return cnt;
 }

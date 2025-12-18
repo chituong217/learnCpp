@@ -2,13 +2,26 @@
 
 using namespace std;
 
-void primeFactorization(int n){
-    for (int i = 2; i*i <= n; i++){
-        while (n % i == 0){
-            cout << i << " ";
-            n /= i;
+int sumEvenDigits(int n){
+    if (n < 10){
+        if (n % 2 == 0){
+            return n;
+        }
+        else{
+            return 0;
         }
     }
-    if (n > 1) cout << n;
-    cout << endl;
+    if ((n % 10) % 2 == 0){
+        return (n % 10) + sumEvenDigits(n / 10);
+    }
+    else{
+        return sumEvenDigits(n / 10);
+    }
+}
+
+int main(){
+    int n;
+    cin >> n;
+    cout << sumEvenDigits(n);
+    return 0;
 }

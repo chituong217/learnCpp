@@ -2,74 +2,42 @@
 
 using namespace std;
 
-struct Term{
-    float heSo;
-    int soMu;
-    Term* pNext;
+struct Node{
+    float data;
+    Node* pNext;
 };
 
-struct Poly{
-    Term* pHead;
+struct List{
+    Node* pHead;
 };
 
-Term* makeTerm(float heSo, int soMu){
-    Term* newTerm = new Term;
-    newTerm->heSo = heSo;
-    newTerm->soMu = soMu;
-    newTerm->pNext = NULL;
-    return newTerm;
-}
+void partitionList(List &L, List &L_pass, List &L_fail){
+    Node* tmp = L.pHead;
 
-void addPolynomials(Poly P1, Poly P2, Poly &Result){
-    Term dummy;
-    dummy.pNext = NULL;
-    Term* tmp = &dummy;
-    Term* tmp1 = P1.pHead;
-    Term* tmp2 = P2.pHead;
+    Node dummyPass;
+    Node* tmpPass = &dummyPass;
 
-    while (tmp1 != NULL && tmp2 != NULL){
-        if (tmp1->soMu > tmp2->soMu){
-            Term* newTerm = makeTerm(tmp1->heSo, tmp1->soMu);
-            tmp->pNext = newTerm;
+    Node dummyFail;
+    Node* tmpFail = &dummyFail;
+
+    while (tmp != NULL){
+        if (tmp->data >= 5){
+            tmpPass->pNext = tmp;
             tmp = tmp->pNext;
-
-            tmp1 = tmp1->pNext;
-        }
-        else if (tmp1->soMu < tmp2->soMu){
-            Term* newTerm = makeTerm(tmp2->heSo, tmp2->soMu);
-            tmp->pNext = newTerm;
-            tmp = tmp->pNext;
-
-            tmp2 = tmp2->pNext;
+            tmpPass = tmpPass->pNext;
         }
         else{
-            int somu = tmp2->soMu;
-            float heso = tmp1->heSo + tmp2->heSo;
-            if (heso != 0){
-                Term* newTerm = makeTerm(heso, somu);
-                tmp->pNext = newTerm;
-                tmp = tmp->pNext;
-            }
-            tmp1 = tmp1->pNext;
-            tmp2 = tmp2->pNext;
+            tmpFail->pNext = tmp;
+            tmp = tmp->pNext;
+            tmpFail = tmpFail->pNext;
         }
     }
 
-    while (tmp1 != NULL){
-        Term* newTerm = makeTerm(tmp1->heSo, tmp1->soMu);
-        tmp->pNext = newTerm;
-        tmp = tmp->pNext;
+    L.pHead = NULL;
 
-        tmp1 = tmp1->pNext;
-    }
+    tmpPass->pNext = NULL;
+    L_pass.pHead = dummyPass.pNext;
 
-    while (tmp2 != NULL){
-        Term* newTerm = makeTerm(tmp2->heSo, tmp2->soMu);
-        tmp->pNext = newTerm;
-        tmp = tmp->pNext;
-
-        tmp2 = tmp2->pNext;
-    }
-
-    Result.pHead = dummy.pNext;
+    tmpFail->pNext = NULL;
+    L_fail.pHead = dummyFail.pNext;
 }

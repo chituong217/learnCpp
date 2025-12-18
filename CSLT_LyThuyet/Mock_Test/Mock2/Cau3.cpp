@@ -1,26 +1,28 @@
 #include <iostream>
-#include <cstring>
-#include <cstdlib>
-#include <cctype>
 
 using namespace std;
 
-void normalizeName(char* name){
-    char ansName[1000] = "";
-    char* word = strtok(name, " ");
-    while (word != NULL){
-        word[0] = toupper(word[0]);
-        int len = strlen(word);
-        for (int i = 1; i < len; i++){
-            word[i] = tolower(word[i]);
+int countQueens(int a[][100], int N){
+    int countQueens = 0;
+    for (int i = 0; i < N; i++){
+        for (int j = 0; j < N; j++){
+            bool isQueen = true;
+            for (int k = 0; k < N; k++){
+                if (a[i][j] < a[k][j]){
+                    isQueen = false; 
+                    break;
+                }
+            }
+            for (int k = 0; k < N; k++){
+                if (a[i][j] < a[i][k]){
+                    isQueen = false;
+                    break;
+                }
+            }
+            if (isQueen){
+                countQueens++;
+            }
         }
-        strcat(ansName, word);
-        strcat(ansName, " ");
-
-        word = strtok(NULL, " ");
     }
-    if (strlen(ansName) != 0){
-        ansName[strlen(ansName) - 1] = '\0';
-    }
-    strcpy(name, ansName);
+    return countQueens;
 }

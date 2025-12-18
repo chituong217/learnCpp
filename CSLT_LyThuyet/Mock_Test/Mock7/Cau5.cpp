@@ -1,57 +1,59 @@
 #include <iostream>
-#include <fstream>
 #include <cstring>
-#include <cstdlib>
+#include <fstream>
+#include <iomanip>
 
 using namespace std;
 
-struct Book{
+struct Student{
     char id[20];
-    char title[100];
-    int year;
+    char name[50];
+    float math, phys, eng;
 };
 
-void findOldestBook(char* filePath){
+void listScholarshipStudents(char* filePath){
     ifstream fin;
 
     fin.open(filePath);
-
+    
     if (fin.is_open() == false){
-        cout << "Khong the mo file\n";
+        cout << "Khong the mo file" << endl;
         return;
     }
-    
+
+    Student ds[1000];
     char line[1000];
-    Book ds[1000];
     int idx = 0;
 
     while (fin.getline(line, 1000)){
         char* id = strtok(line, ",");
-        char* title = strtok(NULL, ",");
-        char* yearS = strtok(NULL, ",");
+        char* name = strtok(NULL, ",");
+        char* mathS = strtok(NULL, ",");
+        char* physS = strtok(NULL, ",");
+        char* engS = strtok(NULL, ",");
 
-        if (id && title && yearS){
-            int year = atoi(yearS);
+        if (id && name && mathS && physS && engS){
             strcpy(ds[idx].id, id);
-            strcpy(ds[idx].title, title);
-            ds[idx].year = year;
+            strcpy(ds[idx].name, name);
+            ds[idx].math = atof(mathS);
+            ds[idx].phys = atof(physS);
+            ds[idx].eng = atof(engS);
 
             idx++;
         }
     }
 
-    if (idx == 0) return;
-
-    int yearMin = ds[0].year;
-    Book min = ds[0];
     for (int i = 0; i < idx; i++){
-        if (ds[i].year < yearMin){
-            yearMin = ds[i].year;
-            min = ds[i];
+        bool ok = false;
+        float gpa = (ds[i].math + ds[i].phys + ds[i].eng)/3.0;
+        if (gpa >= 8.0 && ds[i].math >= 5.0 && ds[i].phys >= 5.0 && ds[i].eng >= 5.0){
+            ok = true;
+        }
+
+        if (ok == true){
+            cout << fixed << setprecision(2) << ds[i].name << " - DTB: " << gpa << endl;
         }
     }
-
-    cout << min.title << " - Nam: " << min.year << endl;
 
     fin.close();
 }

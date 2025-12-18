@@ -1,22 +1,27 @@
 #include <iostream>
-#include <cstring>
-#include <cstdlib>
 
 using namespace std;
 
-void compressString(char* s){
-    int len = strlen(s);
-    for (int i = 0; i < len; i++){
-        int cnt = 1;
-        while (i + 1 < len && s[i + 1] == s[i]){
-            i++;
-            cnt++;
+void findSaddlePoints(int a[][100], int rows, int cols){
+    bool isFound = false;
+    for (int i = 0; i < rows; i++){
+        for (int j = 0; j < cols; j++){
+            bool isReal = true;
+            // nho nhat tren dong
+            for (int k = 0; k < cols; k++){
+                if (a[i][k] < a[i][j]) isReal = false;
+            }
+            // lon nhat tren cot
+            for (int k = 0; k < rows; k++){
+                if (a[k][j] > a[i][j]) isReal = false;
+            }
+            if (isReal == true){
+                isFound = true;
+                cout << "(" << i << ", " << j << ")" << endl;
+            }
         }
-        if (cnt == 1){
-            cout << s[i];
-        }
-        else{
-            cout << s[i] << cnt;
-        }
+    }
+    if (isFound == false){
+        cout << "Khong co\n";
     }
 }

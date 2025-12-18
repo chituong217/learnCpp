@@ -9,89 +9,62 @@ struct Node{
 
 struct List{
     Node* pHead;
-}
+};
 
-void reverseList(List &L){
+void moveMinToHead(List &L){
+    if (L.pHead == NULL || L.pHead->pNext == NULL) return;
+
+    int min = L.pHead->data;
+    Node* tmp = L.pHead;
+    while (tmp != NULL){
+        if (tmp->data < min){
+            min = tmp->data;
+        }
+        tmp = tmp->pNext;
+    }
+
     Node* prev = NULL;
-    Node* curr = L.pHead;
-    while (curr != NULL){
-        Node* next = curr->pNext;
-        curr->pNext = prev;
-        prev = curr;
-        curr = next;
+    tmp = L.pHead;
+    while (tmp != NULL){
+        if (tmp->data == min){
+            if (prev == NULL){
+                break;
+            }
+            prev->pNext = tmp->pNext;
+            tmp->pNext = L.pHead;
+
+            L.pHead = tmp;
+
+            return;
+        }
+        prev = tmp;
+        tmp = tmp->pNext;
     }
-    L.pHead = prev;
 }
 
-bool isPrime(int n){
-    if (n < 2) return false;
-    for (int i = 2; i*i <= n; i++){
-        if (n % i == 0) return false;
-    }
-    return true;
-}
-
-int sizeList(List L){
+void compressList(List &L){
+    if (L.pHead == NULL || L.pHead->pNext == NULL) return;
     Node* head = L.pHead;
-    int cnt = 0;
+
     while (head != NULL){
-        cnt++;
-        head = head->pNext;
-    }
-    return cnt;
-}
+        Node* tmp = head->pNext;
+        int sum = head->data;
 
-void eraseList(List &L, int pos){
-    int size = sizeList(L);
-    if (pos < 1 || pos > size) return;
-    if (pos == 1){
-        Node* tmp = L.pHead;
-        if (tmp == NULL) return;
-        else{
-            L.pHead = tmp->pNext;
-            delete tmp;
-        }
-    }
-    else if (pos == size){
-        Node* prev = NULL;
-        Node* tmp = L.pHead;
-        while (tmp->pNext != NULL){
-            prev = tmp;
+        while (tmp != NULL && head->data == tmp->data){
+            sum += tmp->data;
             tmp = tmp->pNext;
         }
-        Node* last = tmp;
-        delete last;
-        prev->pNext = NULL;
-    }
-    else{
-        Node* tmp = L.pHead;
-        for (int i = 1; i < size - 1; i++){
-            tmp = tmp->pNext;
+
+        Node* need_delete = head->pNext;
+        while (need_delete != tmp){
+            Node* del = need_delete;
+            need_delete = del->pNext;
+            delete del;
         }
-        Node* del = tmp->pNext;
-        tmp->pNext = del->pNext;
-        delete del;
-    }
-}
-
-void removePrimes(List &L) {
-    while (L.pHead != NULL && isPrime(L.pHead->data)) {
-        Node* temp = L.pHead; 
-        L.pHead = L.pHead->pNext;
-        delete temp;
-    }
-
-    if (L.pHead == NULL) return;
-
-    Node* curr = L.pHead;
-    
-    while (curr->pNext != NULL) {
-        if (isPrime(curr->pNext->data)) {
-            Node* temp = curr->pNext;
-            curr->pNext = temp->pNext;
-            delete temp;
-        } else {
-            curr = curr->pNext;
-        }
+        
+        head->data = sum;
+        head->pNext = tmp;
+        
+        head = tmp;
     }
 }

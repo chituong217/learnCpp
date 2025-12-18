@@ -2,30 +2,13 @@
 
 using namespace std;
 
-bool isMountainArray(int* a, int n){
-    if (n < 3) return false;
-
-    int i = 0;
-
-    while (i + 1 < n && a[i] < a[i + 1]){
-        i++;
+void primeFactorization(int n){
+    for (int i = 2; i*i <= n; i++){
+        while (n % i == 0){
+            cout << i << " ";
+            n /= i;
+        }
     }
-
-    if (i == 0 || i == n - 1) return false;
-
-    while (i + 1 < n && a[i] > a[i+1]){
-        i++;
-    }
-
-    return i == (n - 1);
-}
-
-int main(){
-    int n;
-    cin >> n;
-    int a[n];
-    for (int i = 0; i < n; i++){
-        cin >> a[i];
-    }
-    cout << isMountainArray(a, n);
+    if (n > 1) cout << n;
+    cout << endl;
 }

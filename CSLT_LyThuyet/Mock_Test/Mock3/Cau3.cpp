@@ -1,27 +1,26 @@
 #include <iostream>
+#include <cstring>
+#include <cstdlib>
+#include <cctype>
 
 using namespace std;
 
-void findSaddlePoints(int a[][100], int rows, int cols){
-    bool isFound = false;
-    for (int i = 0; i < rows; i++){
-        for (int j = 0; j < cols; j++){
-            bool isReal = true;
-            // nho nhat tren dong
-            for (int k = 0; k < cols; k++){
-                if (a[i][k] < a[i][j]) isReal = false;
-            }
-            // lon nhat tren cot
-            for (int k = 0; k < rows; k++){
-                if (a[k][j] > a[i][j]) isReal = false;
-            }
-            if (isReal == true){
-                isFound = true;
-                cout << "(" << i << ", " << j << ")" << endl;
-            }
+void normalizeName(char* name){
+    char ansName[1000] = "";
+    char* word = strtok(name, " ");
+    while (word != NULL){
+        word[0] = toupper(word[0]);
+        int len = strlen(word);
+        for (int i = 1; i < len; i++){
+            word[i] = tolower(word[i]);
         }
+        strcat(ansName, word);
+        strcat(ansName, " ");
+
+        word = strtok(NULL, " ");
     }
-    if (isFound == false){
-        cout << "Khong co\n";
+    if (strlen(ansName) != 0){
+        ansName[strlen(ansName) - 1] = '\0';
     }
+    strcpy(name, ansName);
 }

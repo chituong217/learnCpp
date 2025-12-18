@@ -4,41 +4,53 @@ using namespace std;
 
 struct Node{
     int data;
-    Node* next;
+    Node* pNext;
 };
 
 struct List{
-    Node* head;
+    Node* pHead;
 };
 
-void findIntersection(List L1, List L2, List &Result){
-    Node dummy;
-    Node* tail = &dummy;
-
-    Node* p1 = L1.head;
-    Node* p2 = L2.head;
-
-    while (p1 != NULL && p2 != NULL){
-        if (p1->data == p2->data){
-            if (tail == &dummy || tail->data != p1->data){
-                Node* tmp = new Node;
-                tmp->data = p1->data;
-                tmp->next = NULL;
-
-                tail->next = tmp;
-                tail = tmp;
-            }
-
-            p1 = p1->next;
-            p2 = p2->next;
-        }
-        else if (p1->data < p2->data){
-            p1 = p1->next;
-        }
-        else{
-            p2 = p2->next;
-        }
+void removeNthFromEnd(List &L, int k){
+    int size = 0;
+    Node* dem = L.pHead;
+    while (dem != NULL){
+        dem = dem->pNext;
+        size++;
     }
 
-    Result.head = dummy.next;
+    if (k > size || k  <= 0) return;
+
+    if (k == size){
+        if (L.pHead == NULL) return;
+        
+        Node* tmp = L.pHead;
+        L.pHead = L.pHead->pNext;
+        delete tmp;
+    }
+    else if (k == 1){
+        if (L.pHead == NULL) return;
+        else if (L.pHead->pNext == NULL){
+            Node* tmp = L.pHead;
+            L.pHead = NULL;
+            delete tmp;
+        }
+
+        Node* tmp = L.pHead;
+        while (tmp->pNext->pNext != NULL){
+            tmp = tmp->pNext;
+        }
+        Node* last = tmp->pNext;
+        tmp->pNext = NULL;
+        delete last;
+    }
+    else{
+        Node* tmp = L.pHead;
+        for (int i = 1; i < size - k; i++){
+            tmp = tmp->pNext;
+        }
+        Node* del = tmp->pNext;
+        tmp->pNext = del->pNext;
+        delete del;
+    }
 }

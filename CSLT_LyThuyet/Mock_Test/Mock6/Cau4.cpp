@@ -2,55 +2,74 @@
 
 using namespace std;
 
-struct Node{
-    int data;
-    Node* pNext;
+struct Term{
+    float heSo;
+    int soMu;
+    Term* pNext;
 };
 
-struct List{
-    Node* pHead;
+struct Poly{
+    Term* pHead;
 };
 
-void removeNthFromEnd(List &L, int k){
-    int size = 0;
-    Node* dem = L.pHead;
-    while (dem != NULL){
-        dem = dem->pNext;
-        size++;
-    }
+Term* makeTerm(float heSo, int soMu){
+    Term* newTerm = new Term;
+    newTerm->heSo = heSo;
+    newTerm->soMu = soMu;
+    newTerm->pNext = NULL;
+    return newTerm;
+}
 
-    if (k > size || k  <= 0) return;
+void addPolynomials(Poly P1, Poly P2, Poly &Result){
+    Term dummy;
+    dummy.pNext = NULL;
+    Term* tmp = &dummy;
+    Term* tmp1 = P1.pHead;
+    Term* tmp2 = P2.pHead;
 
-    if (k == size){
-        if (L.pHead == NULL) return;
-        
-        Node* tmp = L.pHead;
-        L.pHead = L.pHead->pNext;
-        delete tmp;
-    }
-    else if (k == 1){
-        if (L.pHead == NULL) return;
-        else if (L.pHead->pNext == NULL){
-            Node* tmp = L.pHead;
-            L.pHead = NULL;
-            delete tmp;
-        }
-
-        Node* tmp = L.pHead;
-        while (tmp->pNext->pNext != NULL){
+    while (tmp1 != NULL && tmp2 != NULL){
+        if (tmp1->soMu > tmp2->soMu){
+            Term* newTerm = makeTerm(tmp1->heSo, tmp1->soMu);
+            tmp->pNext = newTerm;
             tmp = tmp->pNext;
+
+            tmp1 = tmp1->pNext;
         }
-        Node* last = tmp->pNext;
-        tmp->pNext = NULL;
-        delete last;
-    }
-    else{
-        Node* tmp = L.pHead;
-        for (int i = 1; i < size - k; i++){
+        else if (tmp1->soMu < tmp2->soMu){
+            Term* newTerm = makeTerm(tmp2->heSo, tmp2->soMu);
+            tmp->pNext = newTerm;
             tmp = tmp->pNext;
+
+            tmp2 = tmp2->pNext;
         }
-        Node* del = tmp->pNext;
-        tmp->pNext = del->pNext;
-        delete del;
+        else{
+            int somu = tmp2->soMu;
+            float heso = tmp1->heSo + tmp2->heSo;
+            if (heso != 0){
+                Term* newTerm = makeTerm(heso, somu);
+                tmp->pNext = newTerm;
+                tmp = tmp->pNext;
+            }
+            tmp1 = tmp1->pNext;
+            tmp2 = tmp2->pNext;
+        }
     }
+
+    while (tmp1 != NULL){
+        Term* newTerm = makeTerm(tmp1->heSo, tmp1->soMu);
+        tmp->pNext = newTerm;
+        tmp = tmp->pNext;
+
+        tmp1 = tmp1->pNext;
+    }
+
+    while (tmp2 != NULL){
+        Term* newTerm = makeTerm(tmp2->heSo, tmp2->soMu);
+        tmp->pNext = newTerm;
+        tmp = tmp->pNext;
+
+        tmp2 = tmp2->pNext;
+    }
+
+    Result.pHead = dummy.pNext;
 }

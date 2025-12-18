@@ -1,66 +1,60 @@
 #include <iostream>
 #include <fstream>
 #include <cstring>
+#include <cstdlib>
 
 using namespace std;
 
-struct employee{
-    char id[100];
-    char checkin[10];
-    char checkout[10];
-    int time;
+struct Product{
+    char id[20];
+    char name[50];
+    int quantity;
+    long long importPrice;
+    long long sellPrice;
 };
 
-void findHardWorkingEmployee(char* filePath){
-    ifstream fin;
-    employee ds[100];
-    int idx = 0;
+void findBestProfitProduction(char* pathFile){
+    Product bestProduct;
+    long long maxProfit = 0;
 
-    fin.open(filePath);
+    ifstream fin;
+
+    fin.open(pathFile);
 
     if (fin.is_open() == false){
-        cout << "Ko the mo file" << endl;
+        cout << "Khong the mo file\n";
         return;
     }
 
     char line[1000];
-
-    while(fin.getline(line, 1000)){
+    
+    while (fin.getline(line, 1000)){
         char* id = strtok(line, ",");
-        char* checkin = strtok(NULL, ",");
-        char* checkout = strtok(NULL, ",");
+        char* name = strtok(NULL, ",");
+        char* quantity = strtok(NULL, ",");
+        char* importPrice = strtok(NULL, ",");
+        char* sellPrice = strtok(NULL, ",");
 
-        if (id && checkin && checkout){
-            strcpy(ds[idx].id, id);
-            strcpy(ds[idx].checkin, checkin);
-            strcpy(ds[idx].checkout, checkout);
-            idx++;
-        }
-    }
+        if (id && name && quantity && importPrice && sellPrice){
+            int quantityI = atoi(quantity);
+            long long importPriceLL = atoll(importPrice);
+            long long sellPriceLL = atoll(sellPrice);
 
-    for (int i = 0; i < idx; i++){
-        char* token = strtok(ds[i].checkout, ":");
-        int time = 0;
-        time = atoi(token) * 60;
-        token = strtok(NULL, ":");
-        time += atoi(token);
-        ds[i].time = time;
-    }
+            Product nowProduct;
+            strcpy(nowProduct.id, id);
+            strcpy(nowProduct.name, name);
+            nowProduct.quantity = quantityI;
+            nowProduct.importPrice = importPriceLL;
+            nowProduct.sellPrice = sellPriceLL;
 
-    for (int i = 0; i < idx; i++){
-        char* token = strtok(ds[i].checkin, ":");
-        int time = 0;
-        time = atoi(token) * 60;
-        token = strtok(NULL, ":");
-        time += atoi(token);
-        ds[i].time -= time;
-    }
-
-    for (int i = 0; i < idx; i++){
-        if (ds[i].time > 480){
-            cout << ds[i].id << " - " << "Thoi gian: " << ds[i].time << "phut" << endl;
+            long long profit = (sellPriceLL - importPriceLL) * quantityI;
+            if (profit > maxProfit){
+                bestProduct = nowProduct;
+                maxProfit = profit;
+            }
         }
     }
 
     fin.close();
+    cout << bestProduct.id << " - " << bestProduct.name << " - " << bestProduct.quantity << " - " << bestProduct.importPrice << " - " << bestProduct.sellPrice << endl;
 }
