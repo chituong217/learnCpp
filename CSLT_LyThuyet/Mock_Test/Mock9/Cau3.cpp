@@ -23,6 +23,7 @@ void removeDuplicates(List &L){
     Node* tail = &dummy;
 
     tail->next = L.head;
+    tail = tail->next;
     while (tail != NULL && tail->next != NULL){
         if (tail->data == tail->next->data){
             Node* del = tail->next;

@@ -9,13 +9,13 @@ void findSaddlePoints(int** matrix, int n){
             bool isSaddlePoint = true;
 
             for (int col = 0; col < n; col++){
-                if (matrix[i][col] <= matrix[i][j] && col != j){
+                if (matrix[i][col] < matrix[i][j] && col != j){
                     isSaddlePoint = false;
                 }
             }
 
             for (int row = 0; row < n; row ++){
-                if (matrix[row][j] >= matrix[i][j] && row != i){
+                if (matrix[row][j] > matrix[i][j] && row != i){
                     isSaddlePoint = false;
                 }
             }
