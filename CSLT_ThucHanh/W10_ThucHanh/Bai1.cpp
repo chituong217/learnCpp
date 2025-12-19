@@ -621,8 +621,3 @@ bool Stack_Push(Stack &s, const Data &info){
 void Stack_Clear(Stack &s){
     RemoveList(s.l);
 }
-
-
-int main(){
-    return 0;
-}
