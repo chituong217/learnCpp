@@ -622,7 +622,7 @@ void Stack_Clear(Stack &s){
     RemoveList(s.l);
 }
 
+
 int main(){
-    
     return 0;
 }
