@@ -18,7 +18,7 @@ void exportPayroll(char* inputFile, char* outputFile){
     ifstream fin;
     ofstream fout;
 
-    fin.open(intputFile);
+    fin.open(inputFile);
     fout.open(outputFile);
 
     if (fin.is_open() == false){
@@ -32,7 +32,7 @@ void exportPayroll(char* inputFile, char* outputFile){
     }
 
     int n;
-    cin >> n;
+    fin >> n;
     fin.ignore();
 
     cout << "Ma NV | Ho Ten | Thuc Lanh " << endl;

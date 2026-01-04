@@ -7,7 +7,7 @@ int binarySearchRecursive(int* arr, int left, int right, int x){
         return -1;
     }
     
-    int mid = (right - left) / 2;
+    int mid = (right + left) / 2;
     
     if (arr[mid] == x){
         return 1;

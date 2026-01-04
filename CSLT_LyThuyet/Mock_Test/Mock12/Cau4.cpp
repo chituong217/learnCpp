@@ -19,8 +19,8 @@ Node* findMiddleNode(List l){
         return l.head;
     }
 
-    Node* slow = list.head;
-    Node* fast = list.head;
+    Node* slow = l.head;
+    Node* fast = l.head->next;
 
     while (fast != NULL && fast->next != NULL){
         slow = slow->next;
