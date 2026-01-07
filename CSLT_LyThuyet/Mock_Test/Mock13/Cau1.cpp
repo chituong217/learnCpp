@@ -24,7 +24,7 @@ void partitionPrimes(int* arr, int n){
         if (isPrime(arr[left]) == true && isPrime(arr[right]) == true){
             left++;
         }
-        else if (isPrime(arr[left]) == false && isPrime(arr[left]) == true){
+        else if (isPrime(arr[left]) == false && isPrime(arr[right]) == true){
             int tmp = arr[left];
             arr[left] = arr[right];
             arr[right] = tmp;
