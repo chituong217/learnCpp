@@ -3,20 +3,6 @@
 
 using namespace std;
 
-void selectionSort(int a[], int n){
-    for (int i = 0; i < n; i++){
-        int min = i;
-        for (int j = i + 1; j < n; j++){
-            if (a[min] < a[j]){
-                min = j;
-            }
-        }
-
-        int tmp = a[min];
-        a[min] = a[i];
-        a[i] = tmp;
-    }
-}
 
 int main(){
     int n, q;
@@ -39,7 +25,7 @@ int main(){
         d[r + 1] -= 1;
     }
 
-    int f[n];
+    long long f[n];
     f[0] = d[0];
     for (int i = 1; i < n; i++){
         f[i] = f[i - 1] + d[i];
@@ -53,7 +39,7 @@ int main(){
         if (f[i] == 0){
             break;
         }
-        sum += a[i] * f[i];
+        sum += 1ll * a[i] * f[i];
     }
 
     cout << sum;
