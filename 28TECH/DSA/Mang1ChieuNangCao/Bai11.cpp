@@ -6,7 +6,7 @@ using namespace std;
 int main(){
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-
+    
     int n, m;
     cin >> n >> m;
 
@@ -22,23 +22,44 @@ int main(){
     while (i < n && j < m){
         if (a[i] < b[j]){
             cout << a[i] << ' ';
-            i++;
+            ++i;
+        }
+        else if (a[i] > b[j]){
+            cout << b[j] << ' ';
+            ++j;
         }
         else{
-            cout << b[j] << ' ';
-            j++;
+            cout << a[i] << ' ';
+            ++i; 
+            ++j;
         }
     }
-
     while (i < n){
         cout << a[i] << ' ';
-        i++;
+        ++i;
     }
     while (j < m){
         cout << b[j] << ' ';
-        j++;
+        ++j;
+    }
+
+    cout << '\n';
+
+    i = 0;
+    j = 0;
+    while (i < n && j < m){
+        if (a[i] < b[j]){
+            ++i;
+        }
+        else if (a[i] > b[j]){
+            ++j;
+        }
+        else{
+            cout << a[i] << ' ';
+            ++i; 
+            ++j;
+        }
     }
 
     return 0;
 }
-
