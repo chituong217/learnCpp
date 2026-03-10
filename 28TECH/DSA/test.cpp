@@ -6,6 +6,7 @@
 #include <map>
 #include <string>
 #include <algorithm>
+#include <sstream>
 
 
 using namespace std;
@@ -134,18 +135,15 @@ void quickSort(int a[], int l, int r){
 }
 
 int main(){
-    int n;
-    cin >> n;
-    int a[n];
-    for (int i = 0; i < n; i++){
-        cin >> a[i];
+    string s;
+
+    getline(cin, s);
+
+    stringstream ss(s);
+    string word;
+
+    while (getline(ss, word, '-')){
+        cout << word << endl;
     }
-
-    quickSort(a, 0, n - 1);
-
-    for (int i = 0; i < n; i++){
-        cout << a[i] << ' ';
-    }
-
     return 0;
 }
