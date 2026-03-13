@@ -18,20 +18,14 @@ int main(){
     }
 
     for (int i = 0; i < 256; i++){
-        if (dem1[i] > 0 && dem2[i] > 0){
+        if (dem1[i] > 0 && dem2[i] == 0){
             cout << (char)i;
-        }
-    }
-
-    for (int i = 0; i < 256; i++){
-        if (dem2[i] > 0){
-            dem1[i]++;
         }
     }
 
     cout << endl;
     for (int i = 0; i < 256; i++){
-        if (dem1[i] > 0){
+        if (dem2[i] > 0 && dem1[i] == 0){
             cout << (char)i;
         }
     }
