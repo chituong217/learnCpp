@@ -134,16 +134,10 @@ void quickSort(int a[], int l, int r){
     quickSort(a, pivot + 1, r);
 }
 
+
+
+
 int main(){
-    string s;
-
-    getline(cin, s);
-
-    stringstream ss(s);
-    string word;
-
-    while (getline(ss, word, '-')){
-        cout << word << endl;
-    }
+    
     return 0;
 }
