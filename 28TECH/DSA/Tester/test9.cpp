@@ -2,8 +2,8 @@
 
 using namespace std;
 
-int X[100], n, daxet[100];
-// daxet[i] == 1 : giá trị i đã được dùng rồi
+int n, X[100];
+bool visited[100] = {false};
 
 void in(){
     for (int i = 1; i <= n; i++){
@@ -13,10 +13,9 @@ void in(){
 
 void Try(int i){
     for (int j = 1; j <= n; j++){
-        // kiểm tra xem có gán j cho X[i] được hay ko
-        if (daxet[j] == 0){
+        if (visited[j] == false){
             X[i] = j;
-            daxet[j] = 1;
+            visited[j] = true;
 
             if (i == n){
                 in();
@@ -25,14 +24,15 @@ void Try(int i){
             else{
                 Try(i + 1);
             }
-            // bỏ ghi nhận để dùng cho try() sau
-            daxet[j] = 0;
+
+            visited[j] = false;
         }
     }
 }
 
 int main(){
     cin >> n;
+
     Try(1);
 
     return 0;
