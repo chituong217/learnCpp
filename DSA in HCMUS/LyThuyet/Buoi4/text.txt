@@ -1,0 +1,9 @@
+- Thông thường không tính đến chi phí chạy vòng lặp, do chi phí chạy 
+vòng lặp thường nhỏ hơn cái chạy ở bên trong.
+
+- Loop : số lượng vòng lặp * thời gian chạy
+- Nested loop : số lần chạy bên ngoài * số lần chạy bên trong
+- Sequential (tuần tự) : tổng các tgian chạy
+- Conditional statement (câu lệnh điều kiện) : lệnh trong điều kiện if + max(lệnh nhánh if, lệnh nhánh else)
+
+
