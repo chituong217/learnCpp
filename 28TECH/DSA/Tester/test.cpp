@@ -125,7 +125,7 @@ int partition(int a[], int l, int r){
     return i;
 }
 
-void quickSort(int a[], int l, int r){
+void quickSort(int a[], int l, int r){ư
     if (l >= r){
         return;
     }
