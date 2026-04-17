@@ -1,6 +1,16 @@
 #include <iostream>
+#define MAX 100
 
 using namespace std;
+
+struct PriorityQueue{
+    int node[100];
+    int size;
+};
+
+void init(PriorityQueue &pq){
+    pq.size = 0;
+}
 
 void heapify(int a[], int left, int right){
     int p = 2 * left + 1;
