@@ -1,0 +1,73 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+void heapify(int a[], int left, int right){
+    int p = left * 2 + 1;
+    if (p > right) return;
+    if (p + 1 <= right && a[p] < a[p + 1]){
+        p = p + 1;
+    }
+
+    if (a[left] < a[p]){
+        swap(a[left], a[p]);
+        heapify(a, p, right);
+    }
+}
+
+void createHeap(int a[], int n){
+    for (int i = (n - 1)/2; i >= 0; i--){
+        heapify(a, i, n - 1);
+    }
+}
+
+void heapSort(int a[], int n){
+    createHeap(a, n);
+    for (int i = n - 1; i > 0; i--){
+        swap(a[0], a[i]);
+        heapify(a, 0, i - 1);
+    }
+}
+
+
+bool checkDistinct (int A[], int n){
+    heapSort(A, n);
+
+    for (int i = 1; i < n; i++){
+        if (A[i] == A[i - 1]) return false;
+    }
+
+    return true;
+}
+
+bool hasPairWithSum (int A[], int n, int S){
+    heapSort(A, n);
+    int left = 0, right = n - 1;
+
+    while (left < right){
+        if (A[left] + A[right] == S){
+            return true;
+        }
+        else if (A[left] + A[right] < S){
+            left++;
+        }
+        else{
+            right--;
+        }
+    }
+
+    return false;
+}
+
+int main(){
+    int n, s;
+    cin >> n >> s;
+    int a[n];
+    for (int i = 0; i < n; i++){
+        cin >> a[i];
+    }
+
+    cout << hasPairWithSum(a, n, s);
+
+    return 0;
+}
