@@ -4,22 +4,21 @@
 using namespace std;
 
 int n;
-int parent[1000005];
+int parent[1000005]; // luu dinh dai dien
+int sz[1000005]; // luu size cua tap hop 
 
 void init(){
     cin >> n;
     for (int i = 1; i <= n; i++){
         parent[i] = i;
+        sz[i] = 1;
     }
 }
 
 // Tim dinh dai dien cho tap hop chua u
 int Find(int u){
-    while (u != parent[u]){
-        u = parent[u];
-    }
-
-    return u;
+    if (u == parent[u]) return u;
+    else parent[u] = Find(parent[u]);
 }
 
 bool Union(int u, int v){
@@ -30,12 +29,13 @@ bool Union(int u, int v){
         // co cung dai dien => cung tap hop
         return false; // ko gop duoc
     }
-    else{
-        // chon thang nho hon lam dai dien
-        if (u < v) parent[v] = u;
-        else parent[u] = v;
-        return true;
+    
+    if (sz[u] < sz[v]){
+        swap(u, v); // uu tien u la thang size lon hon
     }
+    sz[u] += sz[v];
+    parent[v] = u;
+    return true;
 }
 
 int main(){
