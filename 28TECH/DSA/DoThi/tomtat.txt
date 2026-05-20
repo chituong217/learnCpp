@@ -1,0 +1,55 @@
+DSU (Disjoint Set Union) là cấu trúc dữ liệu dùng để gộp và tìm, 2 thao tác Find và Union. Ban đầu, các phần tử là từng tập hợp riêng lẻ, chúng tự đại diện cho chính nó. Khi ta gộp 2 phần tử lại, ta sẽ kiểm tra xem chúng có trùng phần tử đại diện hay không, nếu 2 phần tử trùng phần tử đại diện tức là chúng cùng tập hợp, ta sẽ ko thực hiện Union. Nếu chúng khác phần tử đại diện, ta sẽ gộp 2 tập hợp chứa chúng lại với nhau. Lúc này, ta cần thay phần tử đại diện cho 2 tập hợp, ta ưu tiên lấy tập hợp có ít phần tử hơn để làm đại diện. Thao tác Find thì nếu phần tử trùng với phần tử đại diện của chính nó thì trả về, còn ko thì ta tìm ngược về đại diện của nó cho đến khi == nó.
+Cây khung cực tiểu là một cây khung liên kết toàn bộ đỉnh của đồ thị, với tổng trọng số là bé nhất.
+Thuật toán Kruskal là thuật toán tham lam dùng để tìm cây khung cực tiểu. Nó hoạt động như sau, đầu tiên là ta sẽ tạo ra cấu trúc DSU cho đồ thị. Sau đó, ta sẽ luôn tìm đỉnh có trọng số bé nhất mà chưa nằm trong cây khung để thêm vào cây khung, nếu nó thỏa điều kiện là khi thêm cạnh đó vào thì nó không tạo ra chu trình cho cây khung hiện tại. Để xác định việc có tạo chu trình hay không, ta áp dụng tính chất của Disjoint Set Union là nếu tạo chu trình thì hàm Union của nó sẽ trả về false, tức là ko gộp được, tức là 2 phần tử đã nằm trong cùng 1 tập hợp nên nếu ta gộp thì sẽ tạo ra chu trình. Ta sẽ thực hiện việc thêm cạnh có trọng số nhỏ nhất liên tục cho đến khi hết. Lúc này nếu như MST (Minium Spanning Tree ) của mình có số lượng phần tử đúng == n - 1 thì nó là 1 cây khung cực tiểu thỏa mãn, nếu nó bé hơn n - 1 cạnh thì không thỏa. Khi cạnh < n - 1 với n là số đỉnh thì đồ thị lúc này ko liên thông nên ko tồn tại cây thông cực tiểu.
+Thuật toán Prim là thuật toán có mục đích tương tự thuật toán Kruskal là dùng để tìm cây khung cực tiểu của đồ thị và cũng là thuật toán tham lam, tuy nhiên hoạt động theo cách khác chứ không dùng DSU. Nó sẽ duy trì 2 tập hợp. Tập hợp V là tập hợp các đỉnh chưa có trong MST. Tập hợp MST là tập hợp các đỉnh đã có trong cây khung. Thuật toán hoạt động như sau. Đầu tiên nó sẽ thêm 1 đỉnh bất kỳ vào trong tập hợp MST, rồi bắt đầu. Lựa chọn 1 cạnh trong đồ thị có trọng số nhỏ nhất sao cho có 1 đỉnh là nằm trong V và 1 đỉnh nằm trong MST, bởi vì khi lựa chọn như vậy, sẽ không thể tạo ra chu trình được vì 2 phần tử được chọn ra không cùng nằm trong cây khung. Ta sẽ lấy ra đỉnh đó và thêm vào cây khung rồi tiếp tục duyệt như vậy đến khi V rỗng. Nhưng khó khăn ở chỗ mỗi lần ta thêm vào trong MST, ta sẽ phải tìm các cạnh có trọng số nhỏ nhất trong khi thêm các cạnh liên tục. Lúc này ta sử dụng Priority Queue lưu các pair với first là trọng số và second là đỉnh. Ta xây dựng danh sách kề cũng bằng các pair<first, second> với first là đỉnh và second là trọng số. Ta duy trì thêm 1 mảng bool taken[] với true là nằm trong MST, false là chưa nằm trong MST. Ta sẽ thực hiện cài đặt thuật toán như sau.
+
+##############################
+Cài đặt thuật toán Prim mã giả
+bool taken[];
+vector<pair<đỉnh, trọng số>> ke[];
+
+void Prim(int s){
+    Priority Queue <pair<trọng số, đỉnh>, min_heap> Q;
+    taken[s] = true;
+    
+    for (x : ke[s]){
+        if (!taken[x]){
+            Q.push(x);
+        }
+    }
+
+    long long d = 0; lưu tổng trọng số
+    int dem = 0; lưu số lượng cạnh
+    while (!Q.empty()){
+        pair top = Q.top();
+        Q.pop();
+
+        if (!taken[top]){
+            d += top.w;
+            dem++;
+            taken[top] = true;
+
+            for (x : ke[top]){
+                if (!taken[x]){
+                    Q.push(x);
+                }
+            }
+        }
+    }
+
+    if (dem == n - 1){
+        cout << d;
+    }
+    else{
+        cout << "Không tồn tại cây khung cực tiểu"
+    }
+}
+
+##############################
+
+DFS là thuật toán duyệt theo chiều sâu, ta luôn đi sâu nhất có thể. Tận dụng danh sách kề và 1 mảng visited[]. Ta sẽ bắt đầu từ 1 đỉnh. Thuật toán như sau, ta đánh dấu thằng đang xét là visited = true. Rồi duyệt danh sách kề của nó, nếu đỉnh kề với nó có visited == false thì ta DFS(đỉnh kề).
+BFS là thuật toán duyệt theo chiều rộng, ta sẽ luôn đi rộng nhất có thể trước khi đi xuống. Ta tận dụng danh sách kề, mảng visited[] và hàng đợi Queue. Đầu tiên ta push đỉnh bắt đầu vào hàng đợi, rồi visited = true. Sau đó ta lặp vòng while chừng nào Queue còn chưa rỗng ta thực hiện như sau. Ta lấy ra đỉnh top trong queue, rồi pop. Sau đó duyệt danh sách kề của top, nếu chưa visited thì ta push nó vào trong hàng đợi và đánh dấu đã thăm nó. Ta thực hiện vòng while đến khi hàng đợi rỗng.
+
+Sắp xếp Topo là thứ tự sắp xếp mà thằng con luôn đứng sau thằng cha. Ta có thể làm theo DFS hoặc BFS, nếu là DFS thì ta thêm vào stack theo thứ tự đỉnh duyệt xong. 
+Thuật toán Korasaju dùng để kiểm tra đồ thị liên thông mạnh. Đầu tiên, ta build stack Topo của đồ thị. Rồi ta lật ngược hướng của đồ thị ban đầu, rồi ta duyệt dfs với các đỉnh pop dần ra từ stack. Các thành phần liên thông được dfs chính là các thành phần liên thông mạnh.
+Thuật toán Tarjan dùng để kiểm tra đỉnh trụ, cạnh cầu, liên thông mạnh. Ta duy trì 2 mảng disc[] và low[] và dùng 1 biến timer tăng dần. Mỗi khi xét 1 đỉnh ta cho disc = low = timer, rồi tăng timer. Nếu ta gặp lại 1 đỉnh visited = true thì ta cho low đỉnh lúc này = min(disc[đỉnh đã thăm], low[đỉnh lúc này]); Rồi sau khi duyệt hết dfs của dỉnh con thì ta cho low của đỉnh cha = min với low của đỉnh con. Nếu sau khi dfs xong, disc[u] == low[u] thì nó là đỉnh đại diện của 1 thành phần liên thông mạnh. Là đỉnh trụ nếu nó là gốc của dfs và có ít nhất 2 con hoặc k là đỉnh trụ và có disc[u] <= low[v] (tức là ta phải đi qua u trước khi ta đi đến v). 

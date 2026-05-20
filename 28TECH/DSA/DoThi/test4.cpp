@@ -18,7 +18,7 @@ void init(){
 // Tim dinh dai dien cho tap hop chua u
 int Find(int u){
     if (u == parent[u]) return u;
-    else parent[u] = Find(parent[u]);
+    else return parent[u] = Find(parent[u]);
 }
 
 bool Union(int u, int v){
