@@ -120,11 +120,13 @@ Node* deleteNode(Node* root, int key){
             Node* tmp = root;
             root = root->right;
             delete tmp;
+            return root;
         }
         else if (root->right == NULL){
             Node* tmp = root;
             root = root->left;
             delete tmp;
+            return root;
         }
         else{
             Node* tmp = minValueNode(root->right);
